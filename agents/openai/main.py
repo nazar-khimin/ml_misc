@@ -1,14 +1,18 @@
-from agents import Agent, Runner
-from config import OPENAI_API_KEY
-import os
+from openai import OpenAI
+from dotenv import load_dotenv
 
-# Set API key in env variable for Agents API
-os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
+load_dotenv()
+client = OpenAI()
 
-agent = Agent(name="Assistant", instructions="You are a helpful assistant")
+response = client.responses.create(
+    model="gpt-5-nano",
+    input="How much gold would it take to coat the Statue of Liberty in a 1mm layer?",
+    reasoning={
+        "effort": "minimal"
+    }
+)
 
-result = Runner.run_sync(agent, "Write a haiku about recursion in programming.")
-print(result.final_output)
+print(response)
 
 # Code within the code,
 # Functions calling themselves,
